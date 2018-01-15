@@ -12,6 +12,8 @@ codeIndex=0
 intakeIndex=0
 codeIncrease=1
 intakeIncrease=1
+preID='0'
+samplesize=0
 
 f=SAS7BDAT('HN16_24RC.sas7bdat')
 
@@ -24,11 +26,17 @@ for row in f :
     break
 print(codeIndex, intakeIndex)
 
-for row in f:
+for row in f[1:]:
+    if preID==row[1] : identicality=1
+    else :
+        identicality=0
+        samplesize=samplesize+1
     for i in range(len(list)) :
         if row[codeIndex] in list[i] :
             list_intake[i] = list_intake[i] + row[intakeIndex]
-            list_num[i] = list_num[i] + 1
+            if identicality==0 : list_num[i] = list_num[i] + 1
+    preID = row[1]
+    print(samplesize)
         #print(i, row[1], row[intakeIndex], list_intake[i], list_num[i])
 
 endtime=time.clock()
