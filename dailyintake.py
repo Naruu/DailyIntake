@@ -26,7 +26,7 @@ for row in f :
     break
 print(codeIndex, intakeIndex)
 
-for row in f[1:]:
+for row in f:
     if preID==row[1] : identicality=1
     else :
         identicality=0
