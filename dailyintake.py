@@ -4,7 +4,7 @@ import time
 starttime=time.clock()
 
 #고추, 고춧잎, 상추, 배추, 쌈추,쑥갓, 갓,무청
-list = [[6029],[6038],[6217],[6063,6186],[6262], [6265],[6008, 6057],[6139]]
+list = [['06029'],['06038'],['06217'],['06063','06186'],['06262'], ['06265'],['06008', '06057'],['06139']]
 list_intake=[0]*len(list)
 list_num=[0]*len(list)
 
@@ -25,12 +25,15 @@ for row in f :
 print(codeIndex, intakeIndex)
 
 for row in f:
-    for i in range(len(list)):
-        if row[codeIndex] in list[i]:
-            list_intake[i] += row[intakeIndex]
-            list_num[i] = list_num[i] = 1
-        print(i, row[1], row[intakeIndex], list_intake[i], list_num[i])
+    for i in range(len(list)) :
+        if row[codeIndex] in list[i] :
+            list_intake[i] = list_intake[i] + row[intakeIndex]
+            list_num[i] = list_num[i] + 1
+        #print(i, row[1], row[intakeIndex], list_intake[i], list_num[i])
 
 endtime=time.clock()
 
 print(endtime-starttime)
+print(list_intake, list_num)
+for i in range(len(list)) :
+    print(list_intake[i]/list_num[i], end=', ')
