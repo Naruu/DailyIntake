@@ -1,0 +1,66 @@
+from sas7bdat import SAS7BDAT
+import time
+
+starttime=time.clock()
+
+#고추, 고춧잎, 상추, 배추, 쌈추,쑥갓, 갓,무청
+list = [['06029'],['06038'],['06217'],['06063','06186'],['06262'], ['06265'],['06008', '06057'],['06139']]
+list_intake=[0]*len(list)
+list_num=[0]*len(list)
+list_preID=['0']*len(list)
+
+codeIndex=0
+intakeIndex=0
+codeIncrease=1
+intakeIncrease=1
+
+samplesize=0
+
+f=SAS7BDAT('HN16_24RC.sas7bdat')
+
+for row in f :
+    for i in range(len(row)) :
+        if row[i]=='N_FCODE3' : codeIncrease=0
+        if row[i]=='NF_INTK3' : intakeIncrease=0
+        codeIndex=codeIndex+codeIncrease
+        intakeIndex=intakeIndex+intakeIncrease
+    break
+print(codeIndex, intakeIndex)
+
+for row in f:
+    if row[codeIndex]=='06029' :
+        list_intake[0] = list_intake[0] + row[intakeIndex]
+        print("list_num : ", list_num, "ID : ", row[1], "preID : ", list_preID[0], "identicality : ", list_preID[0]==row[1])
+        
+        if list_preID[0] != row[1] : 
+            list_num[0] = list_num[0] + 1
+            #print("found : ", i)
+        list_preID[0]=row[1]
+
+print(list_intake)
+print(list_num)
+print(endtime-starttime)
+'''
+for row in f:
+        samplesize=samplesize+1
+    for i in range(len(list)) :
+        if row[codeIndex] in list[i] :
+            list_intake[i] = list_intake[i] + row[intakeIndex]
+            print("list_num : ", list_num, "ID : ", row[1], "preID : ", list_preID[i], "identicality : ", list_preID[i]==row[1])
+            
+            if list_preID[i] != row[1] : 
+                list_num[i] = list_num[i] + 1
+                print("found : ", i)
+            list_preID[i]=row[1]
+
+        #print(i, row[1], row[intakeIndex], list_intake[i], list_num[i])
+
+endtime=time.clock()
+
+print(endtime-starttime)
+print("samplesize :", samplesize)
+print(list_intake)
+print(list_num)
+for i in range(len(list)) :
+    print(list_intake[i]/list_num[i], end=', ')
+'''
